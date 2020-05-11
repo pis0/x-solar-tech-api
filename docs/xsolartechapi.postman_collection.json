@@ -1,0 +1,104 @@
+{
+	"info": {
+		"_postman_id": "f7b2bc52-20c6-4846-809e-3811bf90eac9",
+		"name": "xsolartechapi",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "customers",
+			"item": [
+				{
+					"name": "list customers",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/clients",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"clients"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add customers",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\" : \"Maiko Stievem\" ,\n    \"cpf\": \"050.450.309-06\",\n    \"phone\": \"+55.11.991195222\",\n    \"email\": \"msdraco@gmail.com\",\n    \"address\": {\n    \t\"main\": {\n    \t\t\"number\": 94,\n \t\t\t\"street\": \"R. José de Alencar\",\n\t\t\t\"details\": \"e\",\n\t\t\t\"type\": 1,\n\t\t\t\"city\": \"Chapecó\",\n\t\t\t\"state\": \"SC\",\n\t\t\t\"zipCode\": \"89803-190\",\n\t\t\t\"country\": \"Brasil\"\n    \t},\n    \t\"others\": [\n    \t\t{\n\t    \t\t\"number\": 51,\n\t \t\t\t\"street\": \"R. Xavier Kraus\",\n\t\t\t\t\"details\": \"\",\n\t\t\t\t\"type\": 1,\n\t\t\t\t\"city\": \"São Paulo\",\n\t\t\t\t\"state\": \"SP\",\n\t\t\t\t\"zipCode\": \"89803-190\",\n\t\t\t\t\"country\": \"Brasil\"\n\t    \t}\n    \t]\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/clients",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"clients"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update customers",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"João do Caminhão\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/clients/c0ab76bb-383e-4f0f-a15d-622349c87a92",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"clients",
+								"c0ab76bb-383e-4f0f-a15d-622349c87a92"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete customers",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/customers/0bcfb8a5-19b3-4dcf-bad4-c262a0944c9d",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"customers",
+								"0bcfb8a5-19b3-4dcf-bad4-c262a0944c9d"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
