@@ -1,0 +1,10 @@
+yarn typeorm migration:create -n <migration-name>
+yarn typeorm migration:run
+
+//to do some update locally
+yarn typeorm migration:revert
+//edit the migration file. so now u can run again
+yarn typeorm migration:run
+
+yarn typeorm migration:show // to list executed migrations
+

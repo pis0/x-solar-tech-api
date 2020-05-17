@@ -1,5 +1,8 @@
 import express from 'express';
 import Routes from './routes';
+import 'reflect-metadata';
+
+import './remote';
 
 const app = express();
 

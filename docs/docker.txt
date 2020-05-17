@@ -1,0 +1,7 @@
+docker pull postgres
+
+docker run --name x-solar-tech-postgres -e POSTGRES_PASSWORD=111111 -p 5432:5432 -d postgres
+docker run -it postgres /bin/bash
+
+docker stop x-solar-tech-postgres
+docker start x-solar-tech-postgres
