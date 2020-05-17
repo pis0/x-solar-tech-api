@@ -1,6 +1,10 @@
 import express, { Router, Request, Response } from 'express';
 import { isUuid } from 'uuidv4';
 import CustomerRepository from '../repositories/customers.repository';
+import CreateCustomerService from '../services/customer/create.customer.service';
+import UpdateCustomerService from '../services/customer/update.customer.service';
+import RemoveCustomerService from '../services/customer/remove.customer.service';
+import ListCustomerService from '../services/customer/list.customer.service';
 
 
 const CustomersRoute = Router();
@@ -22,8 +26,8 @@ const customerRepository = new CustomerRepository();
 
 CustomersRoute.get('/', (req, res) => {
   const { name } = req.query;
-  const results = customerRepository.list(name ? name.toString() : null);
-  return res.json(results);
+  const listCustomerService = new ListCustomerService(customerRepository);
+  return res.json(listCustomerService.run(name ? name.toString() : null));
 });
 
 
@@ -31,22 +35,15 @@ CustomersRoute.post('/', (req, res) => {
   const {
     name, cpf, phone, email, address,
   } = req.body;
-
-  const cpfAlreadyExists = customerRepository.checkCpf(cpf);
-  if (cpfAlreadyExists) {
-    return res.status(400).json({ message: 'CPF already exists.' });
+  const createCustomerService = new CreateCustomerService(customerRepository);
+  try {
+    const customer = createCustomerService.run({
+      name, cpf, phone, email, address,
+    });
+    return res.json(customer);
+  } catch (err) {
+    return res.status(400).json({ message: err.message });
   }
-
-  const emailAlreadyExists = customerRepository.checkEmail(email);
-  if (emailAlreadyExists) {
-    return res.status(400).json({ message: 'email already exists.' });
-  }
-
-  const customer = customerRepository.create({
-    name, cpf, phone, email, address,
-  });
-
-  return res.json(customer);
 });
 
 
@@ -55,26 +52,27 @@ CustomersRoute.put('/:id', (req, res) => {
   const {
     name, cpf, phone, email, address,
   } = req.body;
-  const customer = customerRepository.findCustomerById(id);
-  if (!customer) {
-    return res.status(400).json({ error: 'customer not found.' });
+  const updateCustomerService = new UpdateCustomerService(customerRepository);
+  try {
+    const updatedCustomer = updateCustomerService.run(id, {
+      name, cpf, phone, email, address,
+    });
+    return res.json(updatedCustomer);
+  } catch (err) {
+    return res.status(400).json({ message: err.message });
   }
-  const updatedCustomer = customerRepository.update(id, {
-    name, cpf, phone, email, address,
-  });
-
-  return res.json(updatedCustomer);
 });
 
 
 CustomersRoute.delete('/:id', (req, res) => {
   const { id } = req.params;
-  const customer = customerRepository.findCustomerById(id);
-  if (!customer) {
-    return res.status(400).json({ error: 'customer not found.' });
+  const removeCustomerService = new RemoveCustomerService(customerRepository);
+  try {
+    removeCustomerService.run(id);
+    return res.send();
+  } catch (err) {
+    return res.status(400).json({ message: err.message });
   }
-  customerRepository.remove(id);
-  return res.status(200).send();
 });
 
 

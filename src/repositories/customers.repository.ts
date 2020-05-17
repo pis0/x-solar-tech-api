@@ -37,7 +37,6 @@ class CustomerRepository {
       if (others) {
         others.forEach((a, i) => {
           additionalAddresses[i] = new AddressModel();
-
           additionalAddresses[i] = { ...additionalAddresses[i], ...a };
         });
       }
