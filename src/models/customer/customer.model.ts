@@ -1,6 +1,6 @@
-// import { uuid } from 'uuidv4';
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
-// import AddressesModel from './addresses.model';
+import {
+  Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn,
+} from 'typeorm';
 
 @Entity('customers')
 class CustomerModel {
@@ -19,18 +19,11 @@ class CustomerModel {
   @Column()
   email: string;
 
-  // address: AddressesModel;
+  @CreateDateColumn()
+  created_at: string;
 
-  // constructor({
-  //   name, cpf, phone, email, address,
-  // }: Omit<CustomerModel, 'id'>) {
-  //   this.id = uuid();
-  //   this.name = name;
-  //   this.cpf = cpf;
-  //   this.phone = phone;
-  //   this.email = email;
-  //   this.address = address;
-  // }
+  @UpdateDateColumn()
+  updated_at: string;
 }
 
 export default CustomerModel;
