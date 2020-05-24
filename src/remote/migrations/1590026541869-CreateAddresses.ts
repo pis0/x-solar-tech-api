@@ -30,7 +30,7 @@ export default class CreateAddresses1590026541869 implements MigrationInterface 
           },
           {
             name: 'type',
-            type: 'uuid',
+            type: 'int',
           },
           {
             name: 'city',

@@ -6,7 +6,7 @@ interface AddressDto {
   number: number;
   street: string;
   details: string;
-  type: string;
+  type: number;
   city: string;
   state: string;
   zipCode: string;

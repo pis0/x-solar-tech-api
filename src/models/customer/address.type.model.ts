@@ -4,8 +4,8 @@ import {
 
 @Entity('address_types')
 class AddressTypeModel {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
+  @PrimaryGeneratedColumn('increment')
+  id: number;
 
   @Column()
   label: string;

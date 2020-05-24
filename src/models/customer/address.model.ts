@@ -18,7 +18,7 @@ class AddressModel {
   details: string;
 
   @Column()
-  type: string;
+  type: number;
 
   @Column()
   city: string;
