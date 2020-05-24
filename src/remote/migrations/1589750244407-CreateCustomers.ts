@@ -18,6 +18,7 @@ export default class CreateCustomers1589750244407 implements MigrationInterface 
           {
             name: 'name',
             type: 'varchar',
+            isUnique: true,
           },
           {
             name: 'cpf',
@@ -49,7 +50,6 @@ export default class CreateCustomers1589750244407 implements MigrationInterface 
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropForeignKey('customers', 'customerAddress');
     await queryRunner.dropTable('customers');
   }
 }

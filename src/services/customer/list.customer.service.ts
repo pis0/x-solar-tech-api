@@ -1,17 +1,16 @@
+import { getCustomRepository } from 'typeorm';
 import CustomerModel from '../../models/customer/customer.model';
-import CustomerRepository from '../../repositories/customers.repository';
+import CustomerRepository from '../../repositories/customer.repository';
 
 
 class ListCustomerService {
-  private customerRepository: CustomerRepository;
-
-  constructor(customerRepository: CustomerRepository) {
-    this.customerRepository = customerRepository;
-  }
-
-  public run(name: string | null): CustomerModel[] {
-    const results = this.customerRepository.list(name);
-    return results;
+  public async run(): Promise<CustomerModel[]> {
+    const customerRepository = getCustomRepository(CustomerRepository);
+    const customers = await customerRepository.find();
+    if (!customers?.length) {
+      throw new Error('no customers.');
+    }
+    return customers;
   }
 }
 

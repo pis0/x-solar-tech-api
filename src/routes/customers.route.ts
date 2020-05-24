@@ -1,12 +1,9 @@
 import express, { Router, Request, Response } from 'express';
 import { isUuid } from 'uuidv4';
-import { getCustomRepository } from 'typeorm';
-import CustomerRepository from '../repositories/customers.repository';
 import CreateCustomerService from '../services/customer/create.customer.service';
-// import UpdateCustomerService from '../services/customer/update.customer.service';
-// import RemoveCustomerService from '../services/customer/remove.customer.service';
-// import ListCustomerService from '../services/customer/list.customer.service';
-
+import UpdateCustomerService from '../services/customer/update.customer.service';
+import RemoveCustomerService from '../services/customer/remove.customer.service';
+import ListCustomerService from '../services/customer/list.customer.service';
 
 const CustomersRoute = Router();
 
@@ -19,31 +16,30 @@ function validateCustomerId(req: Request, res: Response, next: any): any {
   }
   return next();
 }
+
 CustomersRoute.use('/:id', validateCustomerId);
 CustomersRoute.use(express.json());
 
 
-// const customerRepository = new CustomerRepository();
-
-
 CustomersRoute.get('/', async (req, res) => {
-  // const { name } = req.query;
-  const customerRepository = getCustomRepository(CustomerRepository);
-  // const listCustomerService = new ListCustomerService(customerRepository);
-  // return res.json(listCustomerService.run(name ? name.toString() : null));
-  const customers = await customerRepository.find();
-  return res.json(customers);
+  const listCustomerService = new ListCustomerService();
+  try {
+    const list = await listCustomerService.run();
+    return res.json(list);
+  } catch (err) {
+    return res.status(400).json({ message: err.message });
+  }
 });
 
 
 CustomersRoute.post('/', async (req, res) => {
   const {
-    name, cpf, phone, email, // address,
+    name, cpf, phone, email,
   } = req.body;
   const createCustomerService = new CreateCustomerService();
   try {
     const customer = await createCustomerService.run({
-      name, cpf, phone, email, // address,
+      name, cpf, phone, email,
     });
     return res.json(customer);
   } catch (err) {
@@ -52,33 +48,33 @@ CustomersRoute.post('/', async (req, res) => {
 });
 
 
-// CustomersRoute.put('/:id', (req, res) => {
-//   const { id } = req.params;
-//   const {
-//     name, cpf, phone, email, address,
-//   } = req.body;
-//   const updateCustomerService = new UpdateCustomerService(customerRepository);
-//   try {
-//     const updatedCustomer = updateCustomerService.run(id, {
-//       name, cpf, phone, email, address,
-//     });
-//     return res.json(updatedCustomer);
-//   } catch (err) {
-//     return res.status(400).json({ message: err.message });
-//   }
-// });
+CustomersRoute.put('/:id', async (req, res) => {
+  const { id } = req.params;
+  const {
+    name, cpf, phone, email,
+  } = req.body;
+  const updateCustomerService = new UpdateCustomerService();
+  try {
+    const updatedCustomer = await updateCustomerService.run(id, {
+      name, cpf, phone, email,
+    });
+    return res.json(updatedCustomer);
+  } catch (err) {
+    return res.status(400).json({ message: err.message });
+  }
+});
 
 
-// CustomersRoute.delete('/:id', (req, res) => {
-//   const { id } = req.params;
-//   const removeCustomerService = new RemoveCustomerService(customerRepository);
-//   try {
-//     removeCustomerService.run(id);
-//     return res.send();
-//   } catch (err) {
-//     return res.status(400).json({ message: err.message });
-//   }
-// });
+CustomersRoute.delete('/:id', async (req, res) => {
+  const { id } = req.params;
+  const removeCustomerService = new RemoveCustomerService();
+  try {
+    await removeCustomerService.run(id);
+    return res.send();
+  } catch (err) {
+    return res.status(400).json({ message: err.message });
+  }
+});
 
 
 export default CustomersRoute;

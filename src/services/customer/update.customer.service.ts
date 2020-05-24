@@ -1,35 +1,33 @@
+import { getCustomRepository } from 'typeorm';
 import CustomerModel from '../../models/customer/customer.model';
-import AddressesModel from '../../models/customer/addresses.model';
-import CustomerRepository from '../../repositories/customers.repository';
+import CustomerRepository from '../../repositories/customer.repository';
 
 interface CustomerDto {
   name: string;
   cpf: string;
   phone: string;
   email: string;
-  address: AddressesModel;
 }
 
 class UpdateCustomerService {
-  private customerRepository: CustomerRepository;
-
-  constructor(customerRepository: CustomerRepository) {
-    this.customerRepository = customerRepository;
-  }
-
-  public run(id: string,
+  public async run(id: string,
     {
-      name, cpf, phone, email, address,
-    }: CustomerDto): CustomerModel | null {
-    const customer = this.customerRepository.findCustomerById(id);
+      name, cpf, phone, email,
+    }: CustomerDto): Promise<CustomerModel> {
+    const customerRepository = getCustomRepository(CustomerRepository);
+
+    const customer = await customerRepository.findCustomerById(id);
     if (!customer) {
       throw new Error('customer not found.');
     }
-    const updatedCustomer = this.customerRepository.update(id, {
-      name, cpf, phone, email, address,
-    });
+    if (name) customer.name = name;
+    if (cpf) customer.cpf = cpf;
+    if (phone) customer.phone = phone;
+    if (email) customer.email = email;
 
-    return updatedCustomer;
+    await customerRepository.save(customer);
+
+    return customer;
   }
 }
 

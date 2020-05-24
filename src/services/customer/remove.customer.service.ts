@@ -1,18 +1,16 @@
-import CustomerRepository from '../../repositories/customers.repository';
+import { getCustomRepository } from 'typeorm';
+import CustomerRepository from '../../repositories/customer.repository';
 
 class RemoveCustomerService {
-  private customerRepository: CustomerRepository;
+  public async run(id: string): Promise<void> {
+    const customerRepository = getCustomRepository(CustomerRepository);
 
-  constructor(customerRepository: CustomerRepository) {
-    this.customerRepository = customerRepository;
-  }
-
-  public run(id: string): void {
-    const customer = this.customerRepository.findCustomerById(id);
+    const customer = await customerRepository.findCustomerById(id);
     if (!customer) {
       throw new Error('customer not found.');
     }
-    this.customerRepository.remove(id);
+
+    await customerRepository.remove(customer);
   }
 }
 

@@ -78,6 +78,7 @@ export default class CreateAddresses1590026541869 implements MigrationInterface 
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
+    await queryRunner.dropForeignKey('addresses', 'customerAddress');
     await queryRunner.dropTable('addresses');
   }
 }

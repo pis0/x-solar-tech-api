@@ -1,7 +1,6 @@
 import { getCustomRepository } from 'typeorm';
 import CustomerModel from '../../models/customer/customer.model';
-// import AddressesModel from '../../models/customer/addresses.model';
-import CustomerRepository from '../../repositories/customers.repository';
+import CustomerRepository from '../../repositories/customer.repository';
 
 
 interface CustomerDto {
@@ -9,20 +8,19 @@ interface CustomerDto {
   cpf: string;
   phone: string;
   email: string;
-  // address: AddressesModel;
 }
 
 class CreateCustomerService {
-  // private customerRepository: CustomerRepository;
-  // constructor(customerRepository: CustomerRepository) {
-  //   this.customerRepository = customerRepository;
-  // }
-
-
   public async run({
-    name, cpf, phone, email, // , address,
+    name, cpf, phone, email,
   }: CustomerDto): Promise<CustomerModel> {
     const customerRepository = getCustomRepository(CustomerRepository);
+
+    const nameAlreadyExists = await customerRepository.checkName(name);
+    if (nameAlreadyExists) {
+      throw new Error('name already exists.');
+    }
+
     const cpfAlreadyExists = await customerRepository.checkCpf(cpf);
     if (cpfAlreadyExists) {
       throw new Error('CPF already exists.');
@@ -34,7 +32,7 @@ class CreateCustomerService {
     }
 
     const customer = customerRepository.create({
-      name, cpf, phone, email, // , address,
+      name, cpf, phone, email,
     });
 
     await customerRepository.save(customer);
