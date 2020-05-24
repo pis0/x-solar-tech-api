@@ -30,7 +30,7 @@ export default class CreateAddresses1590026541869 implements MigrationInterface 
           },
           {
             name: 'type',
-            type: 'int',
+            type: 'uuid',
           },
           {
             name: 'city',
@@ -47,6 +47,10 @@ export default class CreateAddresses1590026541869 implements MigrationInterface 
           {
             name: 'country',
             type: 'varchar',
+          },
+          {
+            name: 'priority',
+            type: 'int',
           },
           {
             name: 'customer_id',

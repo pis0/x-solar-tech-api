@@ -18,7 +18,7 @@ class AddressModel {
   details: string;
 
   @Column()
-  type: number;
+  type: string;
 
   @Column()
   city: string;
@@ -31,6 +31,9 @@ class AddressModel {
 
   @Column()
   country: string;
+
+  @Column()
+  priority: number;
 
   @Column()
   customer_id: string;

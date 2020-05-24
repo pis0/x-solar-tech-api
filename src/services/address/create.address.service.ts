@@ -8,11 +8,12 @@ interface AddressDto {
   number: number;
   street: string;
   details: string;
-  type: number;
+  type: string;
   city: string;
   state: string;
   zipCode: string;
   country: string;
+  priority: number;
 }
 
 class CreateAddressService {
@@ -26,6 +27,7 @@ class CreateAddressService {
     state,
     zipCode,
     country,
+    priority,
   }: AddressDto): Promise<AddressModel> {
     const addressRepository = getCustomRepository(AddressRepository);
     const address = addressRepository.create({
@@ -38,6 +40,7 @@ class CreateAddressService {
       state,
       zipCode,
       country,
+      priority,
     });
     await addressRepository.save(address);
     return address;

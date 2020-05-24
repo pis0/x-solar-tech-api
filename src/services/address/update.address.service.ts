@@ -6,11 +6,12 @@ interface AddressDto {
   number: number;
   street: string;
   details: string;
-  type: number;
+  type: string;
   city: string;
   state: string;
   zipCode: string;
   country: string;
+  priority: number;
 }
 
 class UpdateAddressService {
@@ -24,6 +25,7 @@ class UpdateAddressService {
       state,
       zipCode,
       country,
+      priority,
     }: AddressDto): Promise<AddressModel> {
     const addressRepository = getCustomRepository(AddressRepository);
 
@@ -39,6 +41,7 @@ class UpdateAddressService {
     if (state) address.state = state;
     if (zipCode) address.zipCode = zipCode;
     if (country) address.country = country;
+    if (priority) address.priority = priority;
 
     await addressRepository.save(address);
 

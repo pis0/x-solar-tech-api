@@ -1,8 +1,7 @@
 import { Router, Request, Response } from 'express';
 
-import CustomersRoute from './customers.route';
-import AddressesRoute from './addresses.route';
-import AddressTypesRoute from './address.types.route';
+import CustomerRoute from './customer.route';
+import AddresseRoute from './address.route';
 
 const Routes = Router();
 
@@ -16,8 +15,7 @@ function logReq(req: Request, res: Response, next: any): void {
 
 
 Routes.use(logReq);
-Routes.use('/customers', CustomersRoute);
-Routes.use('/addresses', AddressesRoute);
-Routes.use('/address/types', AddressTypesRoute);
+Routes.use('/customer', CustomerRoute);
+Routes.use('/address', AddresseRoute);
 
 export default Routes;

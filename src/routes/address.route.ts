@@ -3,6 +3,7 @@ import ListAddressService from '../services/address/list.address.service';
 import CreateAddressService from '../services/address/create.address.service';
 import UpdateAddressService from '../services/address/update.address.service';
 import RemoveAddressService from '../services/address/remove.address.service';
+import ListAddressTypeService from '../services/address/list.address.type.service';
 
 const AddressesRoute = Router();
 AddressesRoute.use(express.json());
@@ -14,6 +15,16 @@ AddressesRoute.get('/', async (req, res) => {
   const listAddressService = new ListAddressService();
   try {
     const list = await listAddressService.run(customer_id?.toString());
+    return res.json(list);
+  } catch (err) {
+    return res.status(400).json({ message: err.message });
+  }
+});
+
+AddressesRoute.get('/types/', async (req, res) => {
+  const listAddressTypeService = new ListAddressTypeService();
+  try {
+    const list = await listAddressTypeService.run();
     return res.json(list);
   } catch (err) {
     return res.status(400).json({ message: err.message });
@@ -32,6 +43,7 @@ AddressesRoute.post('/', async (req, res) => {
     state,
     zipCode,
     country,
+    priority,
   } = req.body;
   const createAddressService = new CreateAddressService();
   try {
@@ -45,6 +57,7 @@ AddressesRoute.post('/', async (req, res) => {
       state,
       zipCode,
       country,
+      priority,
     });
     return res.json(address);
   } catch (err) {
@@ -64,6 +77,7 @@ AddressesRoute.put('/:id', async (req, res) => {
     state,
     zipCode,
     country,
+    priority,
   } = req.body;
   const updateAddressService = new UpdateAddressService();
   try {
@@ -76,6 +90,7 @@ AddressesRoute.put('/:id', async (req, res) => {
       state,
       zipCode,
       country,
+      priority,
     });
     return res.json(updatedAddress);
   } catch (err) {
