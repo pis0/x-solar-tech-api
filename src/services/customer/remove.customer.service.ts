@@ -1,5 +1,5 @@
 import { getCustomRepository } from 'typeorm';
-import CustomerRepository from '../../repositories/customer.repository';
+import CustomerRepository from '../../repositories/customer/customer.repository';
 
 class RemoveCustomerService {
   public async run(id: string): Promise<void> {

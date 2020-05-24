@@ -1,5 +1,5 @@
 import { getCustomRepository } from 'typeorm';
-import AddressRepository from '../../repositories/address.repository';
+import AddressRepository from '../../repositories/customer/address.repository';
 
 class RemoveAddressService {
   public async run(id: string): Promise<void> {

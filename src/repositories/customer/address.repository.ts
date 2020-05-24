@@ -1,6 +1,6 @@
 
 import { EntityRepository, Repository } from 'typeorm';
-import AddressModel from '../models/customer/address.model';
+import AddressModel from '../../models/customer/address.model';
 
 @EntityRepository(AddressModel)
 class AddressRepository extends Repository<AddressModel> {

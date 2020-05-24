@@ -6,7 +6,8 @@
   "password": 111111,
   "database": "x-solar-tech",
   "entities": [
-    "./src/models/customer/*.ts"
+    "./src/models/customer/*.ts",
+    "./src/models/user/*.ts"
   ],
   "migrations": [
     "./src/remote/migrations/*.ts"

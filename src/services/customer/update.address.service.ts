@@ -1,6 +1,6 @@
 import { getCustomRepository } from 'typeorm';
 import AddressModel from '../../models/customer/address.model';
-import AddressRepository from '../../repositories/address.repository';
+import AddressRepository from '../../repositories/customer/address.repository';
 
 interface AddressDto {
   number: number;

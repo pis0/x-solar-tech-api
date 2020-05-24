@@ -1,27 +1,15 @@
-import express, { Router, Request, Response } from 'express';
-import { isUuid } from 'uuidv4';
+import express, { Router } from 'express';
 import CreateCustomerService from '../services/customer/create.customer.service';
 import UpdateCustomerService from '../services/customer/update.customer.service';
 import RemoveCustomerService from '../services/customer/remove.customer.service';
 import ListCustomerService from '../services/customer/list.customer.service';
 
-const CustomersRoute = Router();
+const CustomerRoute = Router();
 
-function validateCustomerId(req: Request, res: Response, next: any): any {
-  const { id } = req.params;
-  if (!isUuid(id)) {
-    return res.status(400).json({
-      error: 'invalid customer id.',
-    });
-  }
-  return next();
-}
-
-CustomersRoute.use('/:id', validateCustomerId);
-CustomersRoute.use(express.json());
+CustomerRoute.use(express.json());
 
 
-CustomersRoute.get('/', async (req, res) => {
+CustomerRoute.get('/', async (req, res) => {
   const listCustomerService = new ListCustomerService();
   try {
     const list = await listCustomerService.run();
@@ -32,7 +20,7 @@ CustomersRoute.get('/', async (req, res) => {
 });
 
 
-CustomersRoute.post('/', async (req, res) => {
+CustomerRoute.post('/', async (req, res) => {
   const {
     name, cpf, phone, email,
   } = req.body;
@@ -48,7 +36,7 @@ CustomersRoute.post('/', async (req, res) => {
 });
 
 
-CustomersRoute.put('/:id', async (req, res) => {
+CustomerRoute.put('/:id', async (req, res) => {
   const { id } = req.params;
   const {
     name, cpf, phone, email,
@@ -65,7 +53,7 @@ CustomersRoute.put('/:id', async (req, res) => {
 });
 
 
-CustomersRoute.delete('/:id', async (req, res) => {
+CustomerRoute.delete('/:id', async (req, res) => {
   const { id } = req.params;
   const removeCustomerService = new RemoveCustomerService();
   try {
@@ -77,4 +65,4 @@ CustomersRoute.delete('/:id', async (req, res) => {
 });
 
 
-export default CustomersRoute;
+export default CustomerRoute;

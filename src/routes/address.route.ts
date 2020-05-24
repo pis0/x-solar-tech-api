@@ -1,15 +1,15 @@
 import express, { Router } from 'express';
-import ListAddressService from '../services/address/list.address.service';
-import CreateAddressService from '../services/address/create.address.service';
-import UpdateAddressService from '../services/address/update.address.service';
-import RemoveAddressService from '../services/address/remove.address.service';
-import ListAddressTypeService from '../services/address/list.address.type.service';
+import ListAddressService from '../services/customer/list.address.service';
+import CreateAddressService from '../services/customer/create.address.service';
+import UpdateAddressService from '../services/customer/update.address.service';
+import RemoveAddressService from '../services/customer/remove.address.service';
+import ListAddressTypeService from '../services/customer/list.address.type.service';
 
-const AddressesRoute = Router();
-AddressesRoute.use(express.json());
+const AddressRoute = Router();
+AddressRoute.use(express.json());
 
 
-AddressesRoute.get('/', async (req, res) => {
+AddressRoute.get('/', async (req, res) => {
   const { customer_id } = req.query;
 
   const listAddressService = new ListAddressService();
@@ -21,7 +21,7 @@ AddressesRoute.get('/', async (req, res) => {
   }
 });
 
-AddressesRoute.get('/types/', async (req, res) => {
+AddressRoute.get('/types/', async (req, res) => {
   const listAddressTypeService = new ListAddressTypeService();
   try {
     const list = await listAddressTypeService.run();
@@ -32,7 +32,7 @@ AddressesRoute.get('/types/', async (req, res) => {
 });
 
 
-AddressesRoute.post('/', async (req, res) => {
+AddressRoute.post('/', async (req, res) => {
   const {
     customer_id,
     number,
@@ -66,7 +66,7 @@ AddressesRoute.post('/', async (req, res) => {
 });
 
 
-AddressesRoute.put('/:id', async (req, res) => {
+AddressRoute.put('/:id', async (req, res) => {
   const { id } = req.params;
   const {
     number,
@@ -99,7 +99,7 @@ AddressesRoute.put('/:id', async (req, res) => {
 });
 
 
-AddressesRoute.delete('/:id', async (req, res) => {
+AddressRoute.delete('/:id', async (req, res) => {
   const { id } = req.params;
   const removeAddressService = new RemoveAddressService();
   try {
@@ -111,4 +111,4 @@ AddressesRoute.delete('/:id', async (req, res) => {
 });
 
 
-export default AddressesRoute;
+export default AddressRoute;

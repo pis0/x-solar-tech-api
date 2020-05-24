@@ -1,6 +1,6 @@
 import { getCustomRepository } from 'typeorm';
 import AddressTypeModel from '../../models/customer/address.type.model';
-import AddressTypeRepository from '../../repositories/address.type.repository';
+import AddressTypeRepository from '../../repositories/customer/address.type.repository';
 
 
 class ListAddressTypeService {

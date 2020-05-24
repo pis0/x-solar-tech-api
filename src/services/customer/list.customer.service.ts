@@ -1,6 +1,6 @@
 import { getCustomRepository } from 'typeorm';
 import CustomerModel from '../../models/customer/customer.model';
-import CustomerRepository from '../../repositories/customer.repository';
+import CustomerRepository from '../../repositories/customer/customer.repository';
 
 
 class ListCustomerService {
