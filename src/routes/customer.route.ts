@@ -13,6 +13,9 @@ CustomerRoute.get('/', async (req, res) => {
   const listCustomerService = new ListCustomerService();
   try {
     const list = await listCustomerService.run();
+
+    // console.log('user', req.user);
+
     return res.json(list);
   } catch (err) {
     return res.status(400).json({ message: err.message });
