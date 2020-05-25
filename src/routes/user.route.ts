@@ -25,6 +25,9 @@ UserRoute.get('/', async (req, res) => {
   const listUserService = new ListUserService();
   try {
     const list = await listUserService.run();
+    list.forEach((item) => {
+      delete item.password;
+    });
     return res.json(list);
   } catch (err) {
     return res.status(400).json({ message: err.message });
@@ -41,6 +44,9 @@ UserRoute.post('/', async (req, res) => {
     const user = await createUserService.run({
       name, email, password,
     });
+
+    delete user.password;
+
     return res.json(user);
   } catch (err) {
     return res.status(400).json({ message: err.message });

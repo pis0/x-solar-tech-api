@@ -20,6 +20,8 @@
     "@typescript-eslint"
   ],
   "rules": {
+    "@typescript-eslint/no-explicit-any": "off",
+    "no-param-reassign": "off",
     "class-methods-use-this": "off",
     "@typescript-eslint/camelcase": "off",
     "import/extensions": [
