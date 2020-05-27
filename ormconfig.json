@@ -6,13 +6,13 @@
   "password": 111111,
   "database": "x-solar-tech",
   "entities": [
-    "./src/models/customer/*.ts",
-    "./src/models/user/*.ts"
+    "./src/modules/customer/infra/typeorm/entities/*.ts",
+    "./src/modules/user/infra/typeorm/entities/*.ts"
   ],
   "migrations": [
-    "./src/remote/migrations/*.ts"
+    "./src/domain/infra/remote/migrations/*.ts"
   ],
   "cli": {
-    "migrationsDir": "./src/remote/migrations/"
+    "migrationsDir": "./src/domain/infra/remote/migrations/"
   }
 }
