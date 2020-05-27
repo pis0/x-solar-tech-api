@@ -1,6 +1,7 @@
 import { getCustomRepository } from 'typeorm';
 import CustomerModel from '../../models/customer/customer.model';
 import CustomerRepository from '../../repositories/customer/customer.repository';
+import ApiError from '../../errors/api.error';
 
 interface CustomerDto {
   name: string;
@@ -18,7 +19,7 @@ class UpdateCustomerService {
 
     const customer = await customerRepository.findCustomerById(id);
     if (!customer) {
-      throw new Error('customer not found.');
+      throw new ApiError('customer not found.');
     }
     if (name) customer.name = name;
     if (cpf) customer.cpf = cpf;

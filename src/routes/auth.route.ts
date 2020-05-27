@@ -11,17 +11,14 @@ UserRoute.post('/', async (req, res) => {
     email, password,
   } = req.body;
   const authenticateUserService = new AuthenticateUserService();
-  try {
-    const { user, token } = await authenticateUserService.run({
-      email, password,
-    });
 
-    delete user.password;
+  const { user, token } = await authenticateUserService.run({
+    email, password,
+  });
 
-    return res.json({ user, token });
-  } catch (err) {
-    return res.status(400).json({ message: err.message });
-  }
+  delete user.password;
+
+  return res.json({ user, token });
 });
 
 

@@ -4,6 +4,7 @@ import { sign } from 'jsonwebtoken';
 import UserRepository from '../../repositories/user/user.repository';
 import UserModel from '../../models/user/user.model';
 import AuthConfig from '../../config/auth.config';
+import ApiError from '../../errors/api.error';
 
 
 interface UserDto {
@@ -26,11 +27,11 @@ class AuthenticateUserService {
 
     const userFound = await userRepository.checkEmail(email);
     if (!userFound) {
-      throw new Error(errorMessage);
+      throw new ApiError(errorMessage, 401);
     }
     const passwordCompare = await compare(password, userFound.password);
     if (!passwordCompare) {
-      throw new Error(errorMessage);
+      throw new ApiError(errorMessage, 401);
     }
 
     const { secret, expiresIn } = AuthConfig.jwt;

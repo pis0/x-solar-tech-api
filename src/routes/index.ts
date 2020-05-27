@@ -9,6 +9,8 @@ import AddresseRoute from './address.route';
 import UserRoute from './user.route';
 import AuthRoute from './auth.route';
 
+import ApiError from '../errors/api.error';
+
 const Routes = Router();
 
 function logReq(req: Request, res: Response, next: NextFunction): void {
@@ -28,18 +30,16 @@ interface TokenDto {
 function validateToken(req: Request, res: Response, next: NextFunction): void {
   const auth = req.headers.authorization;
   if (!auth) {
-    throw new Error('invalid/missing token.');
+    throw new ApiError('invalid/missing token.');
   }
   const [, token] = auth.split(' ');
-  try {
-    const payload = verify(token, AuthConfig.jwt.secret);
-    const { sub } = payload as TokenDto;
-    req.user = {
-      id: sub,
-    };
-  } catch {
-    throw new Error('verify token failed.');
-  }
+
+  const payload = verify(token, AuthConfig.jwt.secret);
+  const { sub } = payload as TokenDto;
+  req.user = {
+    id: sub,
+  };
+
   next();
 }
 

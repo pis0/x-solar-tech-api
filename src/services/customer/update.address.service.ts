@@ -1,6 +1,7 @@
 import { getCustomRepository } from 'typeorm';
 import AddressModel from '../../models/customer/address.model';
 import AddressRepository from '../../repositories/customer/address.repository';
+import ApiError from '../../errors/api.error';
 
 interface AddressDto {
   number: number;
@@ -31,7 +32,7 @@ class UpdateAddressService {
 
     const address = await addressRepository.findAddressById(id);
     if (!address) {
-      throw new Error('address not found.');
+      throw new ApiError('address not found.');
     }
     if (number) address.number = number;
     if (street) address.street = street;

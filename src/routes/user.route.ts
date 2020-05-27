@@ -25,17 +25,14 @@ UserRoute.post('/', async (req, res) => {
     name, email, password,
   } = req.body;
   const createUserService = new CreateUserService();
-  try {
-    const user = await createUserService.run({
-      name, email, password,
-    });
 
-    delete user.password;
+  const user = await createUserService.run({
+    name, email, password,
+  });
 
-    return res.json(user);
-  } catch (err) {
-    return res.status(400).json({ message: err.message });
-  }
+  delete user.password;
+
+  return res.json(user);
 });
 
 

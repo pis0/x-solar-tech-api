@@ -11,15 +11,8 @@ CustomerRoute.use(express.json());
 
 CustomerRoute.get('/', async (req, res) => {
   const listCustomerService = new ListCustomerService();
-  try {
-    const list = await listCustomerService.run();
-
-    // console.log('user', req.user);
-
-    return res.json(list);
-  } catch (err) {
-    return res.status(400).json({ message: err.message });
-  }
+  const list = await listCustomerService.run();
+  return res.json(list);
 });
 
 
@@ -28,14 +21,11 @@ CustomerRoute.post('/', async (req, res) => {
     name, cpf, phone, email,
   } = req.body;
   const createCustomerService = new CreateCustomerService();
-  try {
-    const customer = await createCustomerService.run({
-      name, cpf, phone, email,
-    });
-    return res.json(customer);
-  } catch (err) {
-    return res.status(400).json({ message: err.message });
-  }
+
+  const customer = await createCustomerService.run({
+    name, cpf, phone, email,
+  });
+  return res.json(customer);
 });
 
 
@@ -45,26 +35,20 @@ CustomerRoute.put('/:id', async (req, res) => {
     name, cpf, phone, email,
   } = req.body;
   const updateCustomerService = new UpdateCustomerService();
-  try {
-    const updatedCustomer = await updateCustomerService.run(id, {
-      name, cpf, phone, email,
-    });
-    return res.json(updatedCustomer);
-  } catch (err) {
-    return res.status(400).json({ message: err.message });
-  }
+
+  const updatedCustomer = await updateCustomerService.run(id, {
+    name, cpf, phone, email,
+  });
+  return res.json(updatedCustomer);
 });
 
 
 CustomerRoute.delete('/:id', async (req, res) => {
   const { id } = req.params;
   const removeCustomerService = new RemoveCustomerService();
-  try {
-    await removeCustomerService.run(id);
-    return res.send();
-  } catch (err) {
-    return res.status(400).json({ message: err.message });
-  }
+
+  await removeCustomerService.run(id);
+  return res.send();
 });
 
 

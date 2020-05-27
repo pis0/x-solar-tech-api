@@ -1,7 +1,7 @@
 import { getCustomRepository } from 'typeorm';
 import AddressModel from '../../models/customer/address.model';
 import AddressRepository from '../../repositories/customer/address.repository';
-
+import ApiError from '../../errors/api.error';
 
 class ListAddressService {
   public async run(customer_id: string | null): Promise<AddressModel[]> {
@@ -10,7 +10,7 @@ class ListAddressService {
       ? await addressRepository.findAddressesByCustomerId(customer_id)
       : await addressRepository.find();
     if (!addresses?.length) {
-      throw new Error('no addresses.');
+      throw new ApiError('no addresses.');
     }
     return addresses;
   }
