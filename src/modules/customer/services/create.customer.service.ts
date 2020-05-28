@@ -1,42 +1,40 @@
-import { getCustomRepository } from 'typeorm';
+import { injectable, inject } from 'tsyringe';
 import ApiError from '@domain/errors/api.error';
-import CustomerModel from '@modules/customer/infra/typeorm/entities/customer.entity';
-import CustomerRepository from '@modules/customer/repositories/customer.repository';
+import ICustomerDto from '@modules/customer/dto/icustomer.dto';
+import ICustomerRepository from '@modules/customer/repositories/icustomer.repository';
 
-interface CustomerDto {
-  name: string;
-  cpf: string;
-  phone: string;
-  email: string;
-}
-
+@injectable()
 class CreateCustomerService {
+  private customerRepository: ICustomerRepository;
+
+  constructor(
+      @inject('CustomerRepository')
+        customerRepository: ICustomerRepository,
+  ) {
+    this.customerRepository = customerRepository;
+  }
+
   public async run({
     name, cpf, phone, email,
-  }: CustomerDto): Promise<CustomerModel> {
-    const customerRepository = getCustomRepository(CustomerRepository);
-
-    const nameAlreadyExists = await customerRepository.checkName(name);
+  }: ICustomerDto): Promise<any> {
+    const nameAlreadyExists = await this.customerRepository.checkName(name);
     if (nameAlreadyExists) {
       throw new ApiError('name already exists.');
     }
 
-    const cpfAlreadyExists = await customerRepository.checkCpf(cpf);
+    const cpfAlreadyExists = await this.customerRepository.checkCpf(cpf);
     if (cpfAlreadyExists) {
       throw new ApiError('CPF already exists.');
     }
 
-    const emailAlreadyExists = await customerRepository.checkEmail(email);
+    const emailAlreadyExists = await this.customerRepository.checkEmail(email);
     if (emailAlreadyExists) {
       throw new ApiError('email already exists.');
     }
 
-    const customer = customerRepository.create({
+    const customer = this.customerRepository.create({
       name, cpf, phone, email,
     });
-
-    await customerRepository.save(customer);
-
 
     return customer;
   }

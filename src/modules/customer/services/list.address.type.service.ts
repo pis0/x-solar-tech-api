@@ -1,12 +1,20 @@
-import { getCustomRepository } from 'typeorm';
+import { injectable, inject } from 'tsyringe';
 import ApiError from '@domain/errors/api.error';
-import AddressTypeModel from '@modules/customer/infra/typeorm/entities/address.type.entity';
-import AddressTypeRepository from '@modules/customer/repositories/address.type.repository';
+import IAddressTypeRepository from '@modules/customer/repositories/iaddress.type.repository';
 
+@injectable()
 class ListAddressTypeService {
-  public async run(): Promise<AddressTypeModel[]> {
-    const addressTypeRepository = getCustomRepository(AddressTypeRepository);
-    const types = await addressTypeRepository.find();
+  private addressTypeRepository: IAddressTypeRepository;
+
+  constructor(
+      @inject('AddressTypeRepository')
+        addressTypeRepository: IAddressTypeRepository,
+  ) {
+    this.addressTypeRepository = addressTypeRepository;
+  }
+
+  public async run(): Promise<any[]> {
+    const types = await this.addressTypeRepository.find();
     if (!types) {
       throw new ApiError('no types.');
     }

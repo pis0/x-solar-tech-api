@@ -1,17 +1,25 @@
-import { getCustomRepository } from 'typeorm';
+import { injectable, inject } from 'tsyringe';
 import ApiError from '@domain/errors/api.error';
-import CustomerRepository from '@modules/customer/repositories/customer.repository';
+import ICustomerRepository from '@modules/customer/repositories/icustomer.repository';
 
+@injectable()
 class RemoveCustomerService {
-  public async run(id: string): Promise<void> {
-    const customerRepository = getCustomRepository(CustomerRepository);
+  private customerRepository: ICustomerRepository;
 
-    const customer = await customerRepository.findCustomerById(id);
+  constructor(
+      @inject('CustomerRepository')
+        customerRepository: ICustomerRepository,
+  ) {
+    this.customerRepository = customerRepository;
+  }
+
+  public async run(id: string): Promise<void> {
+    const customer = await this.customerRepository.findCustomerById(id);
     if (!customer) {
       throw new ApiError('customer not found.');
     }
 
-    await customerRepository.remove(customer);
+    await this.customerRepository.remove(customer);
   }
 }
 

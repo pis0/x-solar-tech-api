@@ -1,14 +1,22 @@
-import { getCustomRepository } from 'typeorm';
+import { injectable, inject } from 'tsyringe';
 import ApiError from '@domain/errors/api.error';
-import AddressModel from '@modules/customer/infra/typeorm/entities/address.entity';
-import AddressRepository from '@modules/customer/repositories/address.repository';
+import IAddressRepository from '@modules/customer/repositories/iaddress.repository';
 
+@injectable()
 class ListAddressService {
-  public async run(customer_id: string | null): Promise<AddressModel[]> {
-    const addressRepository = getCustomRepository(AddressRepository);
+  private addressRepository: IAddressRepository;
+
+  constructor(
+      @inject('AddressRepository')
+        addressRepository: IAddressRepository,
+  ) {
+    this.addressRepository = addressRepository;
+  }
+
+  public async run(customer_id: string | null): Promise<any[]> {
     const addresses = customer_id
-      ? await addressRepository.findAddressesByCustomerId(customer_id)
-      : await addressRepository.find();
+      ? await this.addressRepository.findAddressesByCustomerId(customer_id)
+      : await this.addressRepository.find();
     if (!addresses?.length) {
       throw new ApiError('no addresses.');
     }

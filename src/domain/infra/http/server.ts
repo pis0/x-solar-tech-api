@@ -1,12 +1,10 @@
 import express, { NextFunction, Request, Response } from 'express';
 import 'express-async-errors';
-import ApiError from '@domain/errors/api.error';
-
-import Routes from './routes';
 import 'reflect-metadata';
-
+import ApiError from '@domain/errors/api.error';
+import Routes from './routes';
 import '@domain/infra/remote';
-
+import '@domain/container';
 
 const app = express();
 

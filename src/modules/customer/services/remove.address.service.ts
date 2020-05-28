@@ -1,15 +1,24 @@
-import { getCustomRepository } from 'typeorm';
+import { injectable, inject } from 'tsyringe';
 import ApiError from '@domain/errors/api.error';
-import AddressRepository from '@modules/customer/repositories/address.repository';
+import IAddressRepository from '@modules/customer/repositories/iaddress.repository';
 
+@injectable()
 class RemoveAddressService {
+  private addressRepository: IAddressRepository;
+
+  constructor(
+      @inject('AddressRepository')
+        addressRepository: IAddressRepository,
+  ) {
+    this.addressRepository = addressRepository;
+  }
+
   public async run(id: string): Promise<void> {
-    const addressRepository = getCustomRepository(AddressRepository);
-    const address = await addressRepository.findAddressById(id);
+    const address = await this.addressRepository.findAddressById(id);
     if (!address) {
       throw new ApiError('address not found.');
     }
-    await addressRepository.remove(address);
+    await this.addressRepository.remove(address);
   }
 }
 

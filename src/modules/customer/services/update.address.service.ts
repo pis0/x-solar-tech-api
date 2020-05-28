@@ -1,21 +1,21 @@
-import { getCustomRepository } from 'typeorm';
+import { injectable, inject } from 'tsyringe';
 import ApiError from '@domain/errors/api.error';
-import AddressModel from '@modules/customer/infra/typeorm/entities/address.entity';
-import AddressRepository from '@modules/customer/repositories/address.repository';
+import IAddressDto from '@modules/customer/dto/iaddress.dto';
+import IAddressRepository from '@modules/customer/repositories/iaddress.repository';
 
-interface AddressDto {
-  number: number;
-  street: string;
-  details: string;
-  type: number;
-  city: string;
-  state: string;
-  zipCode: string;
-  country: string;
-  priority: number;
-}
 
+@injectable()
 class UpdateAddressService {
+  private addressRepository: IAddressRepository;
+
+  constructor(
+    @inject('AddressRepository')
+      addressRepository: IAddressRepository,
+  ) {
+    this.addressRepository = addressRepository;
+  }
+
+
   public async run(id: string,
     {
       number,
@@ -27,10 +27,8 @@ class UpdateAddressService {
       zipCode,
       country,
       priority,
-    }: AddressDto): Promise<AddressModel> {
-    const addressRepository = getCustomRepository(AddressRepository);
-
-    const address = await addressRepository.findAddressById(id);
+    }: IAddressDto): Promise<any> {
+    const address = await this.addressRepository.findAddressById(id);
     if (!address) {
       throw new ApiError('address not found.');
     }
@@ -44,9 +42,9 @@ class UpdateAddressService {
     if (country) address.country = country;
     if (priority) address.priority = priority;
 
-    await addressRepository.save(address);
-
-    return address;
+    // await this.addressRepository.save(address);
+    // return address;
+    return this.addressRepository.save(address);
   }
 }
 

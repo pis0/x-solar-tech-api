@@ -1,12 +1,21 @@
-import { getCustomRepository } from 'typeorm';
+import { injectable, inject } from 'tsyringe';
 import ApiError from '@domain/errors/api.error';
-import CustomerModel from '@modules/customer/infra/typeorm/entities/customer.entity';
-import CustomerRepository from '@modules/customer/repositories/customer.repository';
+import ICustomerRepository from '@modules/customer/repositories/icustomer.repository';
 
+@injectable()
 class ListCustomerService {
-  public async run(): Promise<CustomerModel[]> {
-    const customerRepository = getCustomRepository(CustomerRepository);
-    const customers = await customerRepository.find();
+  private customerRepository: ICustomerRepository;
+
+  constructor(
+      @inject('CustomerRepository')
+        customerRepository: ICustomerRepository,
+  ) {
+    this.customerRepository = customerRepository;
+  }
+
+
+  public async run(): Promise<any[]> {
+    const customers = await this.customerRepository.find();
     if (!customers?.length) {
       throw new ApiError('no customers.');
     }

@@ -1,17 +1,26 @@
-import { getCustomRepository } from 'typeorm';
-import UserRepository from '@modules/user/repositories/user.repository';
+import { injectable, inject } from 'tsyringe';
 import ApiError from '@domain/errors/api.error';
+import IUserRepository from '@modules/user/repositories/iuser.repository';
 
+@injectable()
 class RemoveUserService {
-  public async run(id: string): Promise<void> {
-    const userRepository = getCustomRepository(UserRepository);
+  private userRepository: IUserRepository;
 
-    const user = await userRepository.findUserById(id);
+  constructor(
+    @inject('UserRepository')
+      userRepository: IUserRepository,
+  ) {
+    this.userRepository = userRepository;
+  }
+
+
+  public async run(id: string): Promise<void> {
+    const user = await this.userRepository.findUserById(id);
     if (!user) {
       throw new ApiError('user not found.', 401);
     }
 
-    await userRepository.remove(user);
+    await this.userRepository.remove(user);
   }
 }
 

@@ -1,23 +1,25 @@
-import { getCustomRepository } from 'typeorm';
+import { injectable, inject } from 'tsyringe';
 import ApiError from '@domain/errors/api.error';
-import CustomerModel from '@modules/customer/infra/typeorm/entities/customer.entity';
-import CustomerRepository from '@modules/customer/repositories/customer.repository';
+import ICustomerDto from '@modules/customer/dto/icustomer.dto';
+import ICustomerRepository from '@modules/customer/repositories/icustomer.repository';
 
-interface CustomerDto {
-  name: string;
-  cpf: string;
-  phone: string;
-  email: string;
-}
-
+@injectable()
 class UpdateCustomerService {
+  private customerRepository: ICustomerRepository;
+
+  constructor(
+      @inject('CustomerRepository')
+        customerRepository: ICustomerRepository,
+  ) {
+    this.customerRepository = customerRepository;
+  }
+
+
   public async run(id: string,
     {
       name, cpf, phone, email,
-    }: CustomerDto): Promise<CustomerModel> {
-    const customerRepository = getCustomRepository(CustomerRepository);
-
-    const customer = await customerRepository.findCustomerById(id);
+    }: ICustomerDto): Promise<any> {
+    const customer = await this.customerRepository.findCustomerById(id);
     if (!customer) {
       throw new ApiError('customer not found.');
     }
@@ -26,9 +28,9 @@ class UpdateCustomerService {
     if (phone) customer.phone = phone;
     if (email) customer.email = email;
 
-    await customerRepository.save(customer);
-
-    return customer;
+    // await this.customerRepository.save(customer);
+    // return customer;
+    return this.customerRepository.save(customer);
   }
 }
 

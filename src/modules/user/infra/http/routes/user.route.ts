@@ -1,6 +1,7 @@
 import express, {
   Router, Request, Response, NextFunction,
 } from 'express';
+import { container } from 'tsyringe';
 import { isUuid } from 'uuidv4';
 import CreateUserService from '@modules/user/services/create.user.service';
 
@@ -24,7 +25,7 @@ UserRoute.post('/', async (req, res) => {
   const {
     name, email, password,
   } = req.body;
-  const createUserService = new CreateUserService();
+  const createUserService = container.resolve(CreateUserService);
 
   const user = await createUserService.run({
     name, email, password,

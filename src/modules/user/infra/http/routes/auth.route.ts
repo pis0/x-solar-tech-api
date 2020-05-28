@@ -1,4 +1,5 @@
 import express, { Router } from 'express';
+import { container } from 'tsyringe';
 import AuthenticateUserService from '@modules/user/services/authenticate.user.service';
 
 const UserRoute = Router();
@@ -8,12 +9,15 @@ UserRoute.use(express.json());
 
 UserRoute.post('/', async (req, res) => {
   const {
-    email, password,
+    email,
+    password,
   } = req.body;
-  const authenticateUserService = new AuthenticateUserService();
+  const authenticateUserService = container.resolve(AuthenticateUserService);
 
   const { user, token } = await authenticateUserService.run({
-    email, password,
+    name: '', // useless for auth
+    email,
+    password,
   });
 
   delete user.password;

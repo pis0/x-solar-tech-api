@@ -1,22 +1,20 @@
-import { getCustomRepository } from 'typeorm';
-import AddressModel from '@modules/customer/infra/typeorm/entities/address.entity';
-import AddressRepository from '@modules/customer/repositories/address.repository';
+import { injectable, inject } from 'tsyringe';
+import IAddressDto from '@modules/customer/dto/iaddress.dto';
+import IAddressRepository from '@modules/customer/repositories/iaddress.repository';
 
 
-interface AddressDto {
-  customer_id: string;
-  number: number;
-  street: string;
-  details: string;
-  type: number;
-  city: string;
-  state: string;
-  zipCode: string;
-  country: string;
-  priority: number;
-}
-
+@injectable()
 class CreateAddressService {
+  private addressRepository: IAddressRepository;
+
+  constructor(
+      @inject('AddressRepository')
+        addressRepository: IAddressRepository,
+  ) {
+    this.addressRepository = addressRepository;
+  }
+
+
   public async run({
     customer_id,
     number,
@@ -28,9 +26,8 @@ class CreateAddressService {
     zipCode,
     country,
     priority,
-  }: AddressDto): Promise<AddressModel> {
-    const addressRepository = getCustomRepository(AddressRepository);
-    const address = addressRepository.create({
+  }: IAddressDto): Promise<any> {
+    const address = await this.addressRepository.create({
       customer_id,
       number,
       street,
@@ -42,7 +39,7 @@ class CreateAddressService {
       country,
       priority,
     });
-    await addressRepository.save(address);
+
     return address;
   }
 }

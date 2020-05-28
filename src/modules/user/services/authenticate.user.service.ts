@@ -1,31 +1,31 @@
-import { getCustomRepository } from 'typeorm';
+import { injectable, inject } from 'tsyringe';
 import { compare } from 'bcryptjs';
 import { sign } from 'jsonwebtoken';
 import AuthConfig from '@config/auth.config';
-import UserModel from '@modules/user/infra/typeorm/entities/user.entity';
-import UserRepository from '@modules/user/repositories/user.repository';
 import ApiError from '@domain/errors/api.error';
+import IUserDto from '@modules/user/dto/iuser.dto';
+import IUserRepository from '@modules/user/repositories/iuser.repository';
+import IResponseDto from '@modules/user/dto/iresponse.dto';
 
 
-interface UserDto {
-  email: string;
-  password: string;
-}
-
-interface ResponseDto {
-  user: UserModel;
-  token: string;
-}
-
+@injectable()
 class AuthenticateUserService {
+  private userRepository: IUserRepository;
+
+  constructor(
+    @inject('UserRepository')
+      userRepository: IUserRepository,
+  ) {
+    this.userRepository = userRepository;
+  }
+
+
   public async run({
     email, password,
-  }: UserDto): Promise<ResponseDto> {
-    const userRepository = getCustomRepository(UserRepository);
-
+  }: IUserDto): Promise<IResponseDto> {
     const errorMessage = 'email or password invalid.';
 
-    const userFound = await userRepository.checkEmail(email);
+    const userFound = await this.userRepository.checkEmail(email);
     if (!userFound) {
       throw new ApiError(errorMessage, 401);
     }

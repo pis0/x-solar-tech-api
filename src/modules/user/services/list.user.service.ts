@@ -1,12 +1,21 @@
-import { getCustomRepository } from 'typeorm';
-import UserModel from '@modules/user/infra/typeorm/entities/user.entity';
-import UserRepository from '@modules/user/repositories/user.repository';
+import { injectable, inject } from 'tsyringe';
 import ApiError from '@domain/errors/api.error';
+import IUserRepository from '@modules/user/repositories/iuser.repository';
 
+@injectable()
 class ListUserService {
-  public async run(): Promise<UserModel[]> {
-    const userRepository = getCustomRepository(UserRepository);
-    const users = await userRepository.find();
+  private userRepository: IUserRepository;
+
+  constructor(
+    @inject('UserRepository')
+      userRepository: IUserRepository,
+  ) {
+    this.userRepository = userRepository;
+  }
+
+
+  public async run(): Promise<any[]> {
+    const users = await this.userRepository.find();
     if (!users?.length) {
       throw new ApiError('no users.', 401);
     }
