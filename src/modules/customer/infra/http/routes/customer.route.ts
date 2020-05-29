@@ -1,56 +1,14 @@
 import express, { Router } from 'express';
-import { container } from 'tsyringe';
-import CreateCustomerService from '@modules/customer/services/create.customer.service';
-import UpdateCustomerService from '@modules/customer/services/update.customer.service';
-import RemoveCustomerService from '@modules/customer/services/remove.customer.service';
-import ListCustomerService from '@modules/customer/services/list.customer.service';
+import CustomerController from '@modules/customer/infra/http/controllers/customer.cotroller';
 
 const CustomerRoute = Router();
-
 CustomerRoute.use(express.json());
 
+const customerController = new CustomerController();
 
-CustomerRoute.get('/', async (req, res) => {
-  const listCustomerService = container.resolve(ListCustomerService);
-  const list = await listCustomerService.run();
-  return res.json(list);
-});
-
-
-CustomerRoute.post('/', async (req, res) => {
-  const {
-    name, cpf, phone, email,
-  } = req.body;
-  const createCustomerService = container.resolve(CreateCustomerService);
-
-  const customer = await createCustomerService.run({
-    name, cpf, phone, email,
-  });
-  return res.json(customer);
-});
-
-
-CustomerRoute.put('/:id', async (req, res) => {
-  const { id } = req.params;
-  const {
-    name, cpf, phone, email,
-  } = req.body;
-  const updateCustomerService = container.resolve(UpdateCustomerService);
-
-  const updatedCustomer = await updateCustomerService.run(id, {
-    name, cpf, phone, email,
-  });
-  return res.json(updatedCustomer);
-});
-
-
-CustomerRoute.delete('/:id', async (req, res) => {
-  const { id } = req.params;
-  const removeCustomerService = container.resolve(RemoveCustomerService);
-
-  await removeCustomerService.run(id);
-  return res.send();
-});
-
+CustomerRoute.get('/', customerController.list);
+CustomerRoute.post('/', customerController.create);
+CustomerRoute.put('/:id', customerController.update);
+CustomerRoute.delete('/:id', customerController.remove);
 
 export default CustomerRoute;

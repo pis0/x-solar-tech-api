@@ -1,29 +1,13 @@
 import express, { Router } from 'express';
-import { container } from 'tsyringe';
-import AuthenticateUserService from '@modules/user/services/authenticate.user.service';
-
-const UserRoute = Router();
-
-UserRoute.use(express.json());
+import AuthController from '@modules/user/infra/http/controllers/auth.cotroller';
 
 
-UserRoute.post('/', async (req, res) => {
-  const {
-    email,
-    password,
-  } = req.body;
-  const authenticateUserService = container.resolve(AuthenticateUserService);
+const AuthRoute = Router();
+AuthRoute.use(express.json());
 
-  const { user, token } = await authenticateUserService.run({
-    name: '', // useless for auth
-    email,
-    password,
-  });
+const authController = new AuthController();
 
-  delete user.password;
-
-  return res.json({ user, token });
-});
+AuthRoute.post('/', authController.create);
 
 
-export default UserRoute;
+export default AuthRoute;
