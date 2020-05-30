@@ -34,7 +34,7 @@ class CustomerController {
           to: emailToSend,
           from: 'X Solar Tech <noreply@xsolartech.com>',
           subject: 'New Client Registered!',
-          text: 'test',
+          text: `The client "${name} (${cpf})" was just added to the company database.`,
         });
       }
     };
