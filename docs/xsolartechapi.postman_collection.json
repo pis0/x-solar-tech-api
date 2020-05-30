@@ -6,20 +6,97 @@
 	},
 	"item": [
 		{
+			"name": "auth",
+			"item": [
+				{
+					"name": "session",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"msdraco@gmail.com\",\n    \"password\": \"111111\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/auth",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "users",
+			"item": [
+				{
+					"name": "add users",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\" : \"Maiko Stievem\",\n    \"email\": \"msdraco@gmail.com\",\n    \"password\": \"111111\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/user",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"user"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
 			"name": "customers",
 			"item": [
 				{
 					"name": "list customers",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/clients",
+							"raw": "{{base_url}}/customer",
 							"host": [
 								"{{base_url}}"
 							],
 							"path": [
-								"clients"
+								"customer"
 							]
 						}
 					},
@@ -28,11 +105,21 @@
 				{
 					"name": "add customers",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"name\" : \"Maiko Stievem\" ,\n    \"cpf\": \"050.450.309-06\",\n    \"phone\": \"+55.11.991195222\",\n    \"email\": \"msdraco@gmail.com\",\n    \"address\": {\n    \t\"main\": {\n    \t\t\"number\": 94,\n \t\t\t\"street\": \"R. José de Alencar\",\n\t\t\t\"details\": \"e\",\n\t\t\t\"type\": 1,\n\t\t\t\"city\": \"Chapecó\",\n\t\t\t\"state\": \"SC\",\n\t\t\t\"zipCode\": \"89803-190\",\n\t\t\t\"country\": \"Brasil\"\n    \t},\n    \t\"others\": [\n    \t\t{\n\t    \t\t\"number\": 51,\n\t \t\t\t\"street\": \"R. Xavier Kraus\",\n\t\t\t\t\"details\": \"\",\n\t\t\t\t\"type\": 1,\n\t\t\t\t\"city\": \"São Paulo\",\n\t\t\t\t\"state\": \"SP\",\n\t\t\t\t\"zipCode\": \"89803-190\",\n\t\t\t\t\"country\": \"Brasil\"\n\t    \t}\n    \t]\n    }\n}",
+							"raw": "{\n\t\"name\" : \"Sadi Stievem\",\n    \"cpf\": \"111.111.111-11\",\n    \"phone\": \"+55.49.33223285\",\n    \"email\": \"stievem_6@hotmail.com\"\n} ",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -40,12 +127,12 @@
 							}
 						},
 						"url": {
-							"raw": "{{base_url}}/clients",
+							"raw": "{{base_url}}/customer",
 							"host": [
 								"{{base_url}}"
 							],
 							"path": [
-								"clients"
+								"customer"
 							]
 						}
 					},
@@ -53,6 +140,138 @@
 				},
 				{
 					"name": "update customers",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n   \n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/customer/4ffb252e-dc54-471c-94c3-3214021ec39a",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"customer",
+								"4ffb252e-dc54-471c-94c3-3214021ec39a"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete customers",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/customer/4ffb252e-dc54-471c-94c3-3214021ec39a",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"customer",
+								"4ffb252e-dc54-471c-94c3-3214021ec39a"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "addresses",
+			"item": [
+				{
+					"name": "list address types",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": ""
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "list addresses",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/addresses/?customer_id=45e72175-2714-4eff-bcb7-5d6c13dd8c3d",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"addresses",
+								""
+							],
+							"query": [
+								{
+									"key": "customer_id",
+									"value": "45e72175-2714-4eff-bcb7-5d6c13dd8c3d"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create addresses",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t \"customer_id\" : \"45e72175-2714-4eff-bcb7-5d6c13dd8c3d\",\n      \"number\" : 94,\n      \"street\" : \"José de Alencar\",\n      \"details\" : \"e\",\n      \"type\" : 0,\n      \"city\" : \"Chapecó\",\n      \"state\" : \"SC\",\n      \"zipCode\" : \"89803-190\",\n      \"country\" : \"Brasil\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/addresses",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"addresses"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update addresses",
 					"request": {
 						"method": "PUT",
 						"header": [],
@@ -79,18 +298,27 @@
 					"response": []
 				},
 				{
-					"name": "delete customers",
+					"name": "delete addresses",
 					"request": {
 						"method": "DELETE",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"João do Caminhão\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
-							"raw": "{{base_url}}/customers/0bcfb8a5-19b3-4dcf-bad4-c262a0944c9d",
+							"raw": "{{base_url}}/addresses/04d64a2c-8255-480d-a7a7-75a2c47512c5",
 							"host": [
 								"{{base_url}}"
 							],
 							"path": [
-								"customers",
-								"0bcfb8a5-19b3-4dcf-bad4-c262a0944c9d"
+								"addresses",
+								"04d64a2c-8255-480d-a7a7-75a2c47512c5"
 							]
 						}
 					},
