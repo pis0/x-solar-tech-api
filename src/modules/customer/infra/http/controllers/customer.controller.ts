@@ -4,6 +4,8 @@ import CreateCustomerService from '@modules/customer/services/create.customer.se
 import UpdateCustomerService from '@modules/customer/services/update.customer.service';
 import RemoveCustomerService from '@modules/customer/services/remove.customer.service';
 import ListCustomerService from '@modules/customer/services/list.customer.service';
+import SendEmailService from '@modules/customer/services/send.email.service';
+import ListUserService from '@modules/user/services/list.user.service';
 
 
 class CustomerController {
@@ -21,6 +23,23 @@ class CustomerController {
     const customer = await createCustomerService.run({
       name, cpf, phone, email,
     });
+
+    const notifyUserByEmail = async (userId: string): Promise<void> => {
+      const listUserService = container.resolve(ListUserService);
+      const user = await listUserService.run(userId);
+      const emailToSend = user?.[0]?.email;
+      if (emailToSend) {
+        const sendEmailService = container.resolve(SendEmailService);
+        await sendEmailService.run({
+          to: emailToSend,
+          from: 'X Solar Tech <noreply@xsolartech.com>',
+          subject: 'New Client Registered!',
+          text: 'test',
+        });
+      }
+    };
+    await notifyUserByEmail(req.user.id);
+
     return res.json(customer);
   }
 

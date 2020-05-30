@@ -14,8 +14,10 @@ class ListUserService {
   }
 
 
-  public async run(): Promise<any[]> {
-    const users = await this.userRepository.find();
+  public async run(id: string | null): Promise<any[]> {
+    const users = id
+      ? [await this.userRepository.findUserById(id)]
+      : await this.userRepository.find();
     if (!users?.length) {
       throw new ApiError('no users.', 401);
     }

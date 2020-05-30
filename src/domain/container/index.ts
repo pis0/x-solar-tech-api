@@ -8,24 +8,29 @@ import IAddressTypeRepository from '@modules/customer/repositories/iaddress.type
 import AddressTypeRepository from '@modules/customer/infra/typeorm/repositories/address.type.repository';
 import UserRepository from '@modules/user/infra/typeorm/repositories/user.repository';
 import IUserRepository from '@modules/user/repositories/iuser.repository';
+import IMail from '@domain/container/providers/mail/imail';
+import EtherealMailProvider from '@domain/container/providers/mail/ethereal.mail.provider';
 
 
 container.registerSingleton<IUserRepository>(
   'UserRepository',
   UserRepository,
 );
-
 container.registerSingleton<ICustomerRepository>(
   'CustomerRepository',
   CustomerRepository,
 );
-
 container.registerSingleton<IAddressRepository>(
   'AddressRepository',
   AddressRepository,
 );
-
 container.registerSingleton<IAddressTypeRepository>(
   'AddressTypeRepository',
   AddressTypeRepository,
+);
+
+
+container.registerInstance<IMail>(
+  'MailProvider',
+  new EtherealMailProvider(),
 );

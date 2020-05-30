@@ -1,5 +1,5 @@
 import express, { Router } from 'express';
-import CustomerController from '@modules/customer/infra/http/controllers/customer.cotroller';
+import CustomerController from '@modules/customer/infra/http/controllers/customer.controller';
 
 const CustomerRoute = Router();
 CustomerRoute.use(express.json());

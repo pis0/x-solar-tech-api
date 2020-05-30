@@ -5,7 +5,9 @@ import CreateUserService from '@modules/user/services/create.user.service';
 
 
 class UserController {
-  public async validateUserId(req: Request, res: Response, next: NextFunction): Promise<Response | any> {
+  public async validateUserId(
+    req: Request, res: Response, next: NextFunction,
+  ): Promise<Response | any> {
     const { id } = req.params;
     if (!isUuid(id)) {
       return res.status(400).json({

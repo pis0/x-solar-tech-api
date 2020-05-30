@@ -12,26 +12,28 @@ implements ICustomerRepository {
       this.repository = getRepository(CustomerModel);
     }
 
-    private async findOne(value: string): Promise<CustomerModel | undefined> {
+    public async checkCpf(cpf: string): Promise<CustomerModel | undefined> {
       return this.repository.findOne({
-        where: { value },
+        where: { cpf },
       });
     }
 
-    public async checkCpf(cpf: string): Promise<CustomerModel | undefined> {
-      return this.findOne(cpf);
-    }
-
     public async checkEmail(email: string): Promise<CustomerModel | undefined> {
-      return this.findOne(email);
+      return this.repository.findOne({
+        where: { email },
+      });
     }
 
     public async checkName(name: string): Promise<CustomerModel | undefined> {
-      return this.findOne(name);
+      return this.repository.findOne({
+        where: { name },
+      });
     }
 
     public async findCustomerById(id: string): Promise<CustomerModel | undefined> {
-      return this.findOne(id);
+      return this.repository.findOne({
+        where: { id },
+      });
     }
 
     public async create({

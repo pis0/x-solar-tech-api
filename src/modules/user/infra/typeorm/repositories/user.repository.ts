@@ -4,30 +4,30 @@ import UserModel from '@modules/user/infra/typeorm/entities/user.entity';
 import IUserRepository from '@modules/user/repositories/iuser.repository';
 import IUserDto from '@modules/user/dto/iuser.dto';
 
-class UserRepository
-implements IUserRepository {
+class UserRepository implements IUserRepository {
   private repository: Repository<UserModel>;
 
   constructor() {
     this.repository = getRepository(UserModel);
   }
 
-  private async findOne(value: string): Promise<UserModel | undefined> {
+
+  public async checkEmail(email: string): Promise<UserModel | undefined> {
     return this.repository.findOne({
-      where: { value },
+      where: { email },
     });
   }
 
-  public async checkEmail(email: string): Promise<UserModel | undefined> {
-    return this.findOne(email);
-  }
-
   public async checkName(name: string): Promise<UserModel | undefined> {
-    return this.findOne(name);
+    return this.repository.findOne({
+      where: { name },
+    });
   }
 
   public async findUserById(id: string): Promise<UserModel | undefined> {
-    return this.findOne(id);
+    return this.repository.findOne({
+      where: { id },
+    });
   }
 
   public async create({

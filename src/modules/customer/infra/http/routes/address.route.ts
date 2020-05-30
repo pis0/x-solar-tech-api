@@ -1,5 +1,5 @@
 import express, { Router } from 'express';
-import AddressController from '@modules/customer/infra/http/controllers/address.cotroller';
+import AddressController from '@modules/customer/infra/http/controllers/address.controller';
 
 const AddressRoute = Router();
 AddressRoute.use(express.json());
