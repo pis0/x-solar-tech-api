@@ -1,4 +1,5 @@
 import express from 'express';
+import cors from 'cors';
 import 'express-async-errors';
 import 'reflect-metadata';
 import ServerController from '@domain/infra/http/controller/server.controller';
@@ -7,6 +8,7 @@ import '@domain/infra/remote';
 import '@domain/container';
 
 const app = express();
+app.use(cors());
 app.use(Routes);
 
 const serverController = new ServerController();
