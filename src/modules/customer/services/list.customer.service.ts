@@ -14,9 +14,11 @@ class ListCustomerService {
   }
 
 
-  public async run(): Promise<any[]> {
-    const customers = await this.customerRepository.find();
-    if (!customers?.length) {
+  public async run(id: string | null): Promise<any[] | any> {
+    const customers = id
+      ? await this.customerRepository.findCustomerById(id)
+      : await this.customerRepository.find();
+    if (!customers) {
       throw new ApiError('no customers.');
     }
     return customers;

@@ -7,7 +7,7 @@ AddressRoute.use(express.json());
 const addressController = new AddressController();
 
 AddressRoute.get('/types/', addressController.listTypes);
-AddressRoute.get('/', addressController.list);
+AddressRoute.get('/:customer_id', addressController.list);
 AddressRoute.post('/', addressController.create);
 AddressRoute.put('/:id', addressController.update);
 AddressRoute.delete('/:id', addressController.remove);

@@ -9,7 +9,7 @@ import RemoveAddressService from '@modules/customer/services/remove.address.serv
 
 class AddressController {
   public async list(req: Request, res: Response): Promise<Response> {
-    const { customer_id } = req.query;
+    const { customer_id } = req.params;
     const listAddressService = container.resolve(ListAddressService);
     const list = await listAddressService.run(customer_id?.toString());
 

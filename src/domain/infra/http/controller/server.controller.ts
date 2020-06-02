@@ -17,7 +17,7 @@ class ServerController {
     console.error(err);
     return res.status(500).json({
       type: 'error',
-      message: 'Server error',
+      message: err.message, // 'Server error',
     });
   }
 

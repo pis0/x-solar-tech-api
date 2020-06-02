@@ -10,8 +10,9 @@ import ListUserService from '@modules/user/services/list.user.service';
 
 class CustomerController {
   public async list(req: Request, res: Response): Promise<Response> {
+    const { id } = req.query;
     const listCustomerService = container.resolve(ListCustomerService);
-    const list = await listCustomerService.run();
+    const list = await listCustomerService.run(id?.toString());
     return res.json(list);
   }
 
