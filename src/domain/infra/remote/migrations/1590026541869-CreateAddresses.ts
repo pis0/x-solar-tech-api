@@ -18,10 +18,12 @@ export default class CreateAddresses1590026541869 implements MigrationInterface 
           {
             name: 'number',
             type: 'int',
+            isNullable: true,
           },
           {
             name: 'street',
             type: 'varchar',
+            isNullable: true,
           },
           {
             name: 'details',
@@ -31,26 +33,32 @@ export default class CreateAddresses1590026541869 implements MigrationInterface 
           {
             name: 'type',
             type: 'int',
+            isNullable: true,
           },
           {
             name: 'city',
             type: 'varchar',
+            isNullable: true,
           },
           {
             name: 'state',
             type: 'varchar',
+            isNullable: true,
           },
           {
             name: 'zipCode',
             type: 'varchar',
+            isNullable: true,
           },
           {
             name: 'country',
             type: 'varchar',
+            isNullable: true,
           },
           {
             name: 'priority',
             type: 'int',
+            isNullable: true,
           },
           {
             name: 'customer_id',
