@@ -18,21 +18,22 @@ export default class CreateCustomers1589750244407 implements MigrationInterface 
           {
             name: 'name',
             type: 'varchar',
-            isUnique: true,
+            isNullable: true,
           },
           {
             name: 'cpf',
             type: 'varchar',
-            isUnique: true,
+            isNullable: true,
           },
           {
             name: 'phone',
             type: 'varchar',
+            isNullable: true,
           },
           {
             name: 'email',
             type: 'varchar',
-            isUnique: true,
+            isNullable: true,
           },
           {
             name: 'created_at',
